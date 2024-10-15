@@ -133,15 +133,18 @@ Sub DrawCanvas()
     ' Desenha todos os retângulos na lista
     For i As Integer = 0 To objectCount - 1
         Dim r As Rect = objectList(i)
-        Line (r.x, r.y)-(r.x + r.w, r.y + r.h), &HFFFFFF,bf
+        'Line (r.x, r.y)-(r.x + r.w, r.y + r.h), &HFFFFFF,bf
+        Line (r.x, r.y)-(r.x + r.w, r.y + r.h), 15,bf
     Next
     ScreenUnlock()
 End Sub
 
 Sub DrawButton(x As Integer, y As Integer, label As String)
     ' Desenha o botão
-    Line (x, y)-(x + BUTTON_WIDTH, y + BUTTON_HEIGHT), &HFFFFFF, B
-    Draw String (x + 10, y + 10), label, &HFFFFFF
+    'Line (x, y)-(x + BUTTON_WIDTH, y + BUTTON_HEIGHT), &HFFFFFF, B
+    'Draw String (x + 10, y + 10), label, &HFFFFFF
+	Line (x, y)-(x + BUTTON_WIDTH, y + BUTTON_HEIGHT), 15, B
+    Draw String (x + 10, y + 10), label, 15
 End Sub
 
 Function IsMouseInRect(x As Integer, y As Integer, w As Integer, h As Integer) As Integer
@@ -188,8 +191,8 @@ Sub LoadList(filename As String)
 End Sub
 
 ' Configura o modo gráfico
-ScreenRes SCREEN_WIDTH, SCREEN_HEIGHT, 32, 2
-    
+'ScreenRes SCREEN_WIDTH, SCREEN_HEIGHT, 32, 2
+screen 9    
 Do
     ' Limpa a área ao redor da área de desenho
     Line (CANVAS_WIDTH, 0)-(SCREEN_WIDTH/2, SCREEN_HEIGHT), 0, BF
