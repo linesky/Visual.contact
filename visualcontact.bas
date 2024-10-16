@@ -105,13 +105,18 @@ enum
 		'' &h63
 		SC_ALTGR      = &h64
 	end enum
-Const SCREEN_WIDTH = 400
-Const SCREEN_HEIGHT = 240
-Const CANVAS_WIDTH = 320
-Const CANVAS_HEIGHT = 240
-Const BUTTON_WIDTH = 60
-Const BUTTON_HEIGHT = 30
-Const MAX_OBJECTS = 50
+dim shared SCREEN_WIDTH as Integer= 400
+dim shared SCREEN_HEIGHT as Integer= 240
+dim shared CANVAS_WIDTH as Integer= 320
+dim shared CANVAS_HEIGHT as Integer= 240
+dim shared BUTTON_WIDTH as Integer= 60
+dim shared BUTTON_HEIGHT as Integer= 30
+dim shared MAX_OBJECTS as Integer= 50
+dim shared nx as Integer=0
+dim shared ny as integer=0
+dim shared xymax as integer=0
+xymax=CANVAS_WIDTH
+if CANVAS_WIDTH<CANVAS_HEIGHT then xymax=CANVAS_HEIGHT
 
 Type Rect
     x As Integer
@@ -129,12 +134,17 @@ Sub DrawCanvas()
     ScreenLock()
     ' Limpa a área do canvas
     Line (0, 0)-(CANVAS_WIDTH, CANVAS_HEIGHT), 0, BF
-
+    for ny=0 to xymax step 10
+			    
+	    if ny<CANVAS_WIDTH then  line(ny,0)-(ny, CANVAS_HEIGHT),8
+	    if ny<CANVAS_HEIGHT then  line(0,ny)-(CANVAS_WIDTH,ny),8
+				
+    next 
     ' Desenha todos os retângulos na lista
     For i As Integer = 0 To objectCount - 1
         Dim r As Rect = objectList(i)
        
-        Line (r.x, r.y)-(r.x + r.w, r.y + r.h), 15,bf
+        Line (r.x, r.y)-(r.x + r.w, r.y + r.h), 15,b
     Next
 	
     ScreenUnlock()
@@ -191,21 +201,13 @@ Sub LoadList(filename As String)
 End Sub
 
 ' Configura o modo gráfico
-dim nx as Integer=0
-dim ny as integer=0
-dim xymax as integer=CANVAS_WIDTH
-if CANVAS_WIDTH<CANVAS_HEIGHT then xymax=CANVAS_HEIGHT
+
 
 screen 9
-for ny=0 to  xymax step 10
-			    
-	if ny<CANVAS_WIDTH then  line(ny,0)-(ny, CANVAS_HEIGHT),8
-	if ny<CANVAS_HEIGHT then  line(0,ny)-(CANVAS_HEIGHT,ny),8
-				
-next     
+DrawCanvas()
 Do
     ' Limpa a área ao redor da área de desenho
-    Line (CANVAS_WIDTH, 0)-(SCREEN_WIDTH/2, SCREEN_HEIGHT), 0, BF
+    'Line (CANVAS_WIDTH, 0)-(SCREEN_WIDTH/2, SCREEN_HEIGHT), 0, BF
 
     ' Obtém o estado do mouse
     GetMouse(mouseX, mouseY,, mousePressed)
@@ -237,17 +239,15 @@ Do
             objectList(objectCount).w = 50
             objectList(objectCount).h = 30
             objectCount += 1
+			
             DrawCanvas()
-			for ny=0 to  xymax step 10
-			    
-	            if ny<CANVAS_WIDTH then  line(ny,0)-(ny, CANVAS_HEIGHT),8
-	            if ny<CANVAS_HEIGHT then  line(0,ny)-(CANVAS_HEIGHT,ny),8
-				
-            next   
+
+			
+			sleep 1000 
         End If
     End If
 
-    Sleep 5
+    sleep 5 
 Loop Until Multikey(SC_ESCAPE)
 
 End
