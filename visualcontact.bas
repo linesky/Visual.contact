@@ -133,16 +133,16 @@ Sub DrawCanvas()
     ' Desenha todos os retângulos na lista
     For i As Integer = 0 To objectCount - 1
         Dim r As Rect = objectList(i)
-        'Line (r.x, r.y)-(r.x + r.w, r.y + r.h), &HFFFFFF,bf
+       
         Line (r.x, r.y)-(r.x + r.w, r.y + r.h), 15,bf
     Next
+	
     ScreenUnlock()
 End Sub
 
 Sub DrawButton(x As Integer, y As Integer, label As String)
     ' Desenha o botão
-    'Line (x, y)-(x + BUTTON_WIDTH, y + BUTTON_HEIGHT), &HFFFFFF, B
-    'Draw String (x + 10, y + 10), label, &HFFFFFF
+    
 	Line (x, y)-(x + BUTTON_WIDTH, y + BUTTON_HEIGHT), 15, B
     Draw String (x + 10, y + 10), label, 15
 End Sub
@@ -191,8 +191,18 @@ Sub LoadList(filename As String)
 End Sub
 
 ' Configura o modo gráfico
-'ScreenRes SCREEN_WIDTH, SCREEN_HEIGHT, 32, 2
-screen 9    
+dim nx as Integer=0
+dim ny as integer=0
+dim xymax as integer=CANVAS_WIDTH
+if CANVAS_WIDTH<CANVAS_HEIGHT then xymax=CANVAS_HEIGHT
+
+screen 9
+for ny=0 to  xymax step 10
+			    
+	if ny<CANVAS_WIDTH then  line(ny,0)-(ny, CANVAS_HEIGHT),8
+	if ny<CANVAS_HEIGHT then  line(0,ny)-(CANVAS_HEIGHT,ny),8
+				
+next     
 Do
     ' Limpa a área ao redor da área de desenho
     Line (CANVAS_WIDTH, 0)-(SCREEN_WIDTH/2, SCREEN_HEIGHT), 0, BF
@@ -222,16 +232,22 @@ Do
     ' Verifica se o mouse está desenhando dentro da área de desenho
     If mousePressed And IsMouseInRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT) Then
         If objectCount < MAX_OBJECTS Then
-            objectList(objectCount).x = mouseX
-            objectList(objectCount).y = mouseY
+            objectList(objectCount).x = int(mouseX/10)*10
+            objectList(objectCount).y = int(mouseY/10)*10
             objectList(objectCount).w = 50
             objectList(objectCount).h = 30
             objectCount += 1
             DrawCanvas()
+			for ny=0 to  xymax step 10
+			    
+	            if ny<CANVAS_WIDTH then  line(ny,0)-(ny, CANVAS_HEIGHT),8
+	            if ny<CANVAS_HEIGHT then  line(0,ny)-(CANVAS_HEIGHT,ny),8
+				
+            next   
         End If
     End If
 
-    Sleep 10
+    Sleep 5
 Loop Until Multikey(SC_ESCAPE)
 
 End
