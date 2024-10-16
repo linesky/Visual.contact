@@ -222,12 +222,16 @@ Do
     If mousePressed Then
         If IsMouseInRect(CANVAS_WIDTH + 10, 10, BUTTON_WIDTH, BUTTON_HEIGHT) Then
             NewCanvas()
+			sleep 1000 
         ElseIf IsMouseInRect(CANVAS_WIDTH + 10, 50, BUTTON_WIDTH, BUTTON_HEIGHT) Then
             EraseLast()
+			sleep 1000 
         ElseIf IsMouseInRect(CANVAS_WIDTH + 10, 90, BUTTON_WIDTH, BUTTON_HEIGHT) Then
             SaveList("rectangles.csv")
+			sleep 1000 
         ElseIf IsMouseInRect(CANVAS_WIDTH + 10, 130, BUTTON_WIDTH, BUTTON_HEIGHT) Then
             LoadList("rectangles.csv")
+			sleep 1000 
         End If
     End If
 
